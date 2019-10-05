@@ -1,4 +1,7 @@
-import PitchDetector from "./modules/PitchDetector";
+import random from "./utils/random";
+import PitchDetector from "./modules/pitch-detector";
+import MusicGenerator from "./modules/music-generator";
+import bars from "./data/bars";
 
 export function initializeAudioAnalizer(stream) {
   const audioCtx = new AudioContext();
@@ -9,11 +12,17 @@ export function initializeAudioAnalizer(stream) {
   source.connect(analyser);
 
   const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-
-  // Sample environment noise to substract it
-  // TODO: Low-pass filter
+  const seededRandom = random("thisissparta");
 
   const pitchManager = PitchDetector();
+  const musicGenerator = MusicGenerator(bars, seededRandom.randomIntRange);
+
+  const sheet = musicGenerator.generateSheet({
+    chordProgression: [2, 5, 1],
+    barsPerChord: 4
+  });
+
+  console.log(sheet);
 
   (function update() {
     analyser.getByteFrequencyData(frequencyData);

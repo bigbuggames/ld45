@@ -6,7 +6,7 @@ interface Random {
   randomWalk: (maxArea: number) => number[];
 }
 
-export default function rnd(seed): Random {
+export default function rnd(seed: string): Random {
   const rng = seedrandom(seed);
 
   function randomSign(): number {
