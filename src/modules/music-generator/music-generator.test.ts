@@ -32,8 +32,7 @@ describe("MusicGenerator", () => {
 
   test("picks bars from each chord progression", () => {
     const sheet = musicGenerator.generateSheet({
-      chordProgression: [2, 5, 1],
-      barsPerChord: 4
+      chordProgression: [2, 5, 1]
     });
 
     expect(sheet[0]).toStrictEqual({
@@ -54,6 +53,25 @@ describe("MusicGenerator", () => {
       "chord1_bar3",
       "chord1_bar2",
       "chord1_bar2"
+    ]);
+  });
+
+  test("cycles chord progressions", () => {
+    const sheet = musicGenerator.generateSheet({
+      chordProgression: [2, 5],
+      barsPerChord: 2,
+      cycles: 2
+    });
+
+    expect(getSheetIds(sheet)).toStrictEqual([
+      "chord2_bar1",
+      "chord2_bar3",
+      "chord5_bar2",
+      "chord5_bar2",
+      "chord2_bar3",
+      "chord2_bar1",
+      "chord5_bar2",
+      "chord5_bar2"
     ]);
   });
 });

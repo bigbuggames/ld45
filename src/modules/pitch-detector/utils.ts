@@ -31,8 +31,6 @@ export function getOctaveFrequencyArray(frequencyData) {
       item
     );
   });
-
-  console.log(frequenciesByRange);
 }
 
 export function detectVoice(frequencyData, thereshold) {
@@ -40,8 +38,6 @@ export function detectVoice(frequencyData, thereshold) {
     acc += item;
     return acc;
   }, 0);
-
-  console.log("mean", mean);
 
   return mean >= thereshold;
 }

@@ -4,7 +4,7 @@ import { detectVoice } from "./utils";
 
 const boxContainer = css`
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -31,11 +31,6 @@ export default function PitchDetector() {
 
   let element: HTMLElement = document.createElement("div");
   let userInput = keyboard();
-
-  element.innerHTML = `
-    <div>Engaging pitch detector...</div>
-  `;
-  document.body.appendChild(element);
 
   function getBoxElements(voiceActive: boolean, activeKey: string) {
     if (voiceActive) {
@@ -75,7 +70,7 @@ export default function PitchDetector() {
     `;
   }
 
-  function update(frequencyData: Uint8Array) {
+  function update(frequencyData: Uint8Array): string {
     // Taking the first keyCode (no poliphony)
     const activeKey = userInput
       .getPressedKeys()
@@ -83,10 +78,15 @@ export default function PitchDetector() {
 
     // Changing UI state depending on input
     let voiceActive = detectVoice(frequencyData, VOICE_THERESHOLD);
-    console.log(activeKey);
 
     element.innerHTML = getBoxElements(voiceActive, activeKey);
+
+    if (voiceActive) {
+      return activeKey;
+    }
   }
+
+  document.body.appendChild(element);
 
   return { update };
 }

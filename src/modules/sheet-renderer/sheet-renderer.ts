@@ -1,6 +1,6 @@
 import { css } from "linaria";
 
-import { Note } from "../music-manager/music-manager";
+import { beat } from "../beat/beat";
 
 const beatContainer = css`
   display: flex;
@@ -9,15 +9,15 @@ const beatContainer = css`
 
 const inactiveBeat = css`
   border: 1px dashed grey;
-  width: 40px;
-  height: 40px;
+  width: ${beat.width}px;
+  height: ${beat.height}px;
 `;
 
 const activeNote = css`
-  border: 1px dashed forestgreen;
-  background-color: forestgreen;
-  width: 40px;
-  height: 40px;
+  border: 1px dashed ${beat.activeColor};
+  background-color: ${beat.activeColor};
+  width: ${beat.width}px;
+  height: ${beat.height}px;
 `;
 
 export function getCssForBeat(active: string): (string) => string {
@@ -66,15 +66,6 @@ export default function SheetRenderer(sheet) {
   const streamOfNotes = convertToStreamOfNotes(sheet);
   const beats = generateBeatElementsfromNotes(streamOfNotes);
 
-  let x = 0;
-
-  const dynamicTransform = positionX => `
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate3d(${positionX}px, 0, 0);
-  `;
-
   element.innerHTML = `
     <div class=${sheetContainer}>
       ${beats}
@@ -82,12 +73,7 @@ export default function SheetRenderer(sheet) {
   `;
   document.body.appendChild(element);
 
-  function update() {
-    x = x - 1;
-    element.setAttribute("style", dynamicTransform(x));
-  }
-
   return {
-    update
+    element
   };
 }

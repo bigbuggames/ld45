@@ -3,6 +3,7 @@ import random from "./utils/random";
 import PitchDetector from "./modules/pitch-detector";
 import MusicGenerator from "./modules/music-generator";
 import SheetRenderer from "./modules/sheet-renderer";
+import BeatManager from "./modules/beat-manager";
 
 import bars from "./data/bars";
 
@@ -17,54 +18,52 @@ export function initializeAudioAnalizer(stream) {
   const frequencyData = new Uint8Array(analyser.frequencyBinCount);
   const seededRandom = random("thisissparta");
 
+  document.body.setAttribute("style", "overflow: hidden;");
+
   const pitchManager = PitchDetector();
   const musicGenerator = MusicGenerator(bars, seededRandom.randomIntRange);
 
   const sheet = musicGenerator.generateSheet({
     chordProgression: [2, 5, 1],
-    barsPerChord: 4
+    barsPerChord: 4,
+    cycles: 10
   });
 
   const sheetRenderer = SheetRenderer(sheet);
+  const beatManager = BeatManager(sheet, sheetRenderer.element);
 
-  (function update() {
+  let lastTime = performance.now();
+  (function tick(current: number) {
+    const deltaTime = (current - lastTime) / 1000;
+
     analyser.getByteFrequencyData(frequencyData);
 
-    pitchManager.update(frequencyData);
-    sheetRenderer.update();
+    const activeKey = pitchManager.update(frequencyData);
+    beatManager.update(deltaTime, activeKey);
 
-    requestAnimationFrame(update);
-  })();
+    requestAnimationFrame(tick);
+
+    lastTime = current;
+  })(lastTime);
 }
 
 // function game() {
-//   const state = {
-//     frameId: undefined,
-//     lastTime: window.performance.now(),
-//     isRunning: true
-//   };
-
-//   // setting up world
-//   const entities = initializeWorld();
-
-//   // setting up input device
-//   const input = keyboard();
+//   let lastTime = performance.now();
+//   let frameId = undefined;
 
 //   function tick(current) {
-//     state.frameId = window.requestAnimationFrame(tick);
+//     let current;
+//     frameId = window.requestAnimationFrame(tick);
 
-//     const deltaTime = (current - state.lastTime) / 1000;
-//     processInput(input);
+//     const deltaTime = (current - lastTime) / 1000;
 
-//     entities.forEach(entity => {
-//       update(deltaTime, entity);
-//       render(entity);
-//     });
+//     initialize();
+//     update(deltaTime);
 
-//     state.lastTime = current;
+//     lastTime = current;
 //   }
 
-//   tick(state.lastTime);
+//   tick(performance.now());
 // }
 
 window.onload = () => {

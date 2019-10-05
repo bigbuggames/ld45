@@ -1,5 +1,9 @@
 interface MusicGenerator {
   generateBarsForChord: (barsToGenerate: number, chord: number) => string[];
+  generateProgression: (
+    chordProgression: number[],
+    barsPerChord: number
+  ) => string[];
 }
 
 export default function MusicGenerator(
@@ -13,18 +17,42 @@ export default function MusicGenerator(
     });
   }
 
-  function generateSheet({ chordProgression, barsPerChord }): object[] {
-    let sheet = [];
+  function generateProgression(
+    chordProgression: number[],
+    barsPerChord: number
+  ) {
+    let progression = [];
 
     chordProgression.forEach(chord => {
-      sheet = [...sheet, ...generateBarsForChord(barsPerChord, chord)];
+      progression = [
+        ...progression,
+        ...generateBarsForChord(barsPerChord, chord)
+      ];
     });
+
+    return progression;
+  }
+
+  function generateSheet({
+    chordProgression,
+    barsPerChord = 4,
+    cycles = 1
+  }): object[] {
+    let sheet = [];
+
+    for (let i = 0; i < cycles; i++) {
+      sheet = [
+        ...sheet,
+        ...generateProgression(chordProgression, barsPerChord)
+      ];
+    }
 
     return sheet;
   }
 
   return {
     generateBarsForChord,
+    generateProgression,
     generateSheet
   };
 }
