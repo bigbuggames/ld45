@@ -1,5 +1,5 @@
 {
-  "name": "LD Vanilla Template",
+  "name": "LD45",
   "dockerFile": "Dockerfile",
   // Specifies a list of ports that should be published.
   "appPort": [3000],

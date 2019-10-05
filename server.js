@@ -13,8 +13,8 @@ app.use(
     noInfo: true,
     publicPath: config.output.publicPath,
     stats: {
-      colors: true,
-    },
+      colors: true
+    }
   })
 );
 

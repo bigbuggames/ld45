@@ -1,11 +1,11 @@
 {
-  "name": "ld-vanilla-template",
+  "name": "LD45",
   "version": "0.0.1",
-  "description": "template for vanilla javascript project",
-  "homepage": "https://bigbuggames.github.io/ld-vanilla-template",
+  "description": "Ludum Dare 45 project. You start with nothing",
+  "homepage": "https://bigbuggames.github.io/ld45",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch",
     "lint": "eslint src/*.ts src/**/*.ts",
     "check-types": "tsc",
     "clean": "rimraf ./dist",
@@ -15,8 +15,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && npm run lint && npm test",
-      "pre-push": "npm run lint && npm test"
+      "pre-commit": "pretty-quick --staged && npm run lint",
+      "pre-push": "jest"
     }
   },
   "devDependencies": {
@@ -53,8 +53,10 @@
     "pretty-quick": "^1.11.1",
     "rimraf": "^3.0.0",
     "seedrandom": "^3.0.5",
+    "tone": "^13.8.25",
     "typescript": "^3.6.3",
     "typescript-eslint": "0.0.1-alpha.0",
+    "web-audio-daw": "^4.6.0",
     "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "webpack-dev-middleware": "^3.7.2",

@@ -1,4 +1,4 @@
-# Vanilla JS Ludum Dare
+# LD45: You start with notihng
 
 Stack:
 
