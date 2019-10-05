@@ -1,57 +1,36 @@
-import { keyboard } from "./utils/keyboard";
+import PitchDetector from "./modules/PitchDetector";
 
-// exposing keyboard as a global variable
-// window.keyboard = keyboard;
+export function initializeAudioAnalizer(stream) {
+  const audioCtx = new AudioContext();
+  const analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
 
-function initializeWorld() {
-  console.log("intializing world...");
+  const source = audioCtx.createMediaStreamSource(stream);
+  source.connect(analyser);
 
-  return [];
+  const frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+  // Sample environment noise to substract it
+  // TODO: Low-pass filter
+
+  const pitchManager = PitchDetector();
+
+  (function update() {
+    analyser.getByteFrequencyData(frequencyData);
+
+    pitchManager.update(frequencyData);
+
+    requestAnimationFrame(update);
+  })();
 }
 
-function processInput() {
-  // const input = inputMethod.getPressedKeys();
-}
-
-function update(deltaTime, entity) {
-  entity.update(deltaTime);
-}
-
-function render(entity) {
-  entity.render();
-}
-
-function game() {
-  const state = {
-    frameId: undefined,
-    lastTime: window.performance.now(),
-    isRunning: true
-  };
-
-  // setting up world
-  const entities = initializeWorld();
-
-  // setting up input device
-  const input = keyboard();
-
-  function tick(current) {
-    state.frameId = window.requestAnimationFrame(tick);
-
-    const deltaTime = (current - state.lastTime) / 1000;
-    processInput(input);
-
-    entities.forEach(entity => {
-      update(deltaTime, entity);
-      render(entity);
+window.onload = () => {
+  navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .then(function(stream) {
+      initializeAudioAnalizer(stream);
+    })
+    .catch(function(err) {
+      console.error(err);
     });
-
-    state.lastTime = current;
-  }
-
-  tick(state.lastTime);
-}
-
-window.onload = function load() {
-  console.log("assets loaded...");
-  game();
 };
