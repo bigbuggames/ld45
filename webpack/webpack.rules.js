@@ -1,3 +1,5 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = [
   {
     test: /\.ts$/,
@@ -16,6 +18,23 @@ module.exports = [
       },
       {
         loader: "linaria/loader",
+        options: {
+          sourceMap: process.env.NODE_ENV !== "production"
+        }
+      }
+    ]
+  },
+  {
+    test: /\.css$/,
+    use: [
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          hmr: process.env.NODE_ENV !== "production"
+        }
+      },
+      {
+        loader: "css-loader",
         options: {
           sourceMap: process.env.NODE_ENV !== "production"
         }
