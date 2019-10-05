@@ -3,19 +3,23 @@ import keyboard from "../../utils/keyboard";
 import { detectVoice } from "./utils";
 
 const boxContainer = css`
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   list-style: none;
+  z-index: 10;
 `;
 
 const disabledBox = css`
-  border: 1px dashed grey;
+  border: 1px solid green;
   width: 40px;
   height: 40px;
 `;
 
 const enabledBox = css`
-  border: 1px dashed grey;
+  border: 1px solid red;
   background-color: tomato;
   width: 40px;
   height: 40px;
@@ -37,37 +41,37 @@ export default function PitchDetector() {
     if (voiceActive) {
       if (activeKey === "q") {
         return `
-          <ul class=${boxContainer}>
-            <li class=${enabledBox}></li>
-            <li class=${disabledBox}></li>
-            <li class=${disabledBox}></li>
-          </ul>
+          <span class=${boxContainer}>
+            <div class=${enabledBox}></div>
+            <div class=${disabledBox}></div>
+            <div class=${disabledBox}></div>
+          </span>
         `;
       } else if (activeKey === "w") {
         return `
-          <ul class=${boxContainer}>
-            <li class=${disabledBox}></li>
-            <li class=${enabledBox}></li>
-            <li class=${disabledBox}></li>
-          </ul>
+          <span class=${boxContainer}>
+            <div class=${disabledBox}></div>
+            <div class=${enabledBox}></div>
+            <div class=${disabledBox}></div>
+          </span>
         `;
       } else if (activeKey === "e") {
         return `
-          <ul class=${boxContainer}>
-            <li class=${disabledBox}></li>
-            <li class=${disabledBox}></li>
-            <li class=${enabledBox}></li>
-          </ul>
+          <span class=${boxContainer}>
+            <div class=${disabledBox}></div>
+            <div class=${disabledBox}></div>
+            <div class=${enabledBox}></div>
+          </span>
         `;
       }
     }
 
     return `
-      <ul class=${boxContainer}>
-        <li class=${disabledBox}></li>
-        <li class=${disabledBox}></li>
-        <li class=${disabledBox}></li>
-      </ul>
+      <span class=${boxContainer}>
+        <div class=${disabledBox}></div>
+        <div class=${disabledBox}></div>
+        <div class=${disabledBox}></div>
+      </span>
     `;
   }
 
@@ -79,6 +83,8 @@ export default function PitchDetector() {
 
     // Changing UI state depending on input
     let voiceActive = detectVoice(frequencyData, VOICE_THERESHOLD);
+    console.log(activeKey);
+
     element.innerHTML = getBoxElements(voiceActive, activeKey);
   }
 

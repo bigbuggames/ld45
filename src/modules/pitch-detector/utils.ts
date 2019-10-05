@@ -36,10 +36,12 @@ export function getOctaveFrequencyArray(frequencyData) {
 }
 
 export function detectVoice(frequencyData, thereshold) {
-  const median = frequencyData.slice(15, 200).reduce((acc, item) => {
+  const mean = frequencyData.slice(15, 200).reduce((acc, item) => {
     acc += item;
     return acc;
   }, 0);
 
-  return median >= thereshold;
+  console.log("mean", mean);
+
+  return mean >= thereshold;
 }
