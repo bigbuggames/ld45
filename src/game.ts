@@ -4,6 +4,7 @@ import PitchDetector from "./modules/pitch-detector";
 import MusicGenerator from "./modules/music-generator";
 import SheetRenderer from "./modules/sheet-renderer";
 import BeatManager from "./modules/beat-manager";
+import SoundManager from "./modules/sound-manager";
 
 import bars from "./data/bars";
 
@@ -24,13 +25,14 @@ export function initializeAudioAnalizer(stream) {
   const musicGenerator = MusicGenerator(bars, seededRandom.randomIntRange);
 
   const sheet = musicGenerator.generateSheet({
-    chordProgression: [2],
+    chordProgression: [2, 5, 1, 2],
     barsPerChord: 4,
-    cycles: 10
+    cycles: 2
   });
 
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);
+  const soundManager = SoundManager(sheet);
 
   let lastTime = performance.now();
   (function tick(current: number) {
@@ -40,6 +42,7 @@ export function initializeAudioAnalizer(stream) {
 
     const activeKey = pitchManager.update(frequencyData);
     beatManager.update(deltaTime, activeKey);
+    soundManager.update(deltaTime);
 
     requestAnimationFrame(tick);
 

@@ -11,7 +11,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin([
       { from: "src/**/*.png", to: "images", flatten: true },
-      { from: "src/**/*.mp3", to: "audio", flatten: true }
+      { from: "src/**/*.{webm,mp3,wav}", to: "audio", flatten: true }
     ])
   ],
   output: {
