@@ -5,6 +5,10 @@ import { beat } from "../beat/beat";
 const beatContainer = css`
   display: flex;
   flex-direction: column;
+
+  div {
+    box-sizing: border-box;
+  }
 `;
 
 const inactiveBeat = css`

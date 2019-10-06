@@ -24,7 +24,7 @@ export function initializeAudioAnalizer(stream) {
   const musicGenerator = MusicGenerator(bars, seededRandom.randomIntRange);
 
   const sheet = musicGenerator.generateSheet({
-    chordProgression: [2, 5, 1],
+    chordProgression: [2],
     barsPerChord: 4,
     cycles: 10
   });

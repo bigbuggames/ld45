@@ -5,7 +5,7 @@ interface Beat {
 }
 
 export const beat: Beat = {
-  width: 120,
+  width: 80,
   height: 40,
-  activeColor: "forestgreen"
+  activeColor: "lightgreen"
 };

@@ -10,6 +10,10 @@ const boxContainer = css`
   flex-direction: column;
   list-style: none;
   z-index: 10;
+
+  div {
+    box-sizing: border-box;
+  }
 `;
 
 const disabledBox = css`
@@ -20,7 +24,7 @@ const disabledBox = css`
 
 const enabledBox = css`
   border: 1px solid red;
-  background-color: tomato;
+  background-color: forestgreen;
   width: 40px;
   height: 40px;
 `;
