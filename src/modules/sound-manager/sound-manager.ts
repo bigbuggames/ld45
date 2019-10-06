@@ -1,10 +1,6 @@
 import { Howl } from "howler";
 
-import chord1 from "../../../assets/audio/chord1";
-import chord2 from "../../../assets/audio/chord2";
-import chord5 from "../../../assets/audio/chord5";
-
-export default function SoundManager(sheet) {
+export default function SoundManager(sheet, chords) {
   function createHowl(src: string[]) {
     return new Howl({ src });
   }
@@ -30,7 +26,7 @@ export default function SoundManager(sheet) {
 
   // function playBar(chord: string, bar: number) {}
 
-  const sounds = initialize([chord1, chord2, chord5]);
+  const sounds = initialize(chords);
 
   sounds["II"].chord.play();
 
@@ -39,10 +35,7 @@ export default function SoundManager(sheet) {
   let time = 0;
   function update(deltaTime) {
     time = time + deltaTime;
-
     const beat = Math.round(time);
-
-    console.log("SoundManager", beat);
   }
 
   return { update };

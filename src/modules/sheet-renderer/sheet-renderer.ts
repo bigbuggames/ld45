@@ -46,15 +46,6 @@ const sheetContainer = css`
   display: flex;
 `;
 
-export function convertToStreamOfNotes(sheet) {
-  return sheet
-    .map(bar => bar.notes)
-    .reduce((acc, bar) => {
-      acc = [...acc, ...bar];
-      return acc;
-    }, []);
-}
-
 export function generateBeatElementsfromNotes(notes) {
   return notes
     .map(note => {
@@ -67,8 +58,7 @@ export function generateBeatElementsfromNotes(notes) {
 
 export default function SheetRenderer(sheet) {
   const element = document.createElement("span");
-  const streamOfNotes = convertToStreamOfNotes(sheet);
-  const beats = generateBeatElementsfromNotes(streamOfNotes);
+  const beats = generateBeatElementsfromNotes(sheet.notes);
 
   element.innerHTML = `
     <div class=${sheetContainer}>

@@ -15,21 +15,6 @@ function gameOver() {
   console.log("game over!");
 }
 
-interface Bar {
-  id: string;
-  notes: string[];
-}
-
-// TODO: Move to common file
-export function convertToStreamOfNotes(sheet: Bar[]): string[] {
-  return sheet
-    .map(bar => bar.notes)
-    .reduce((acc, bar) => {
-      acc = [...acc, ...bar];
-      return acc;
-    }, []);
-}
-
 function isCorrectKey(notes: string[], key: string, currentBeat: number) {
   const currentNote = {
     q: Note.High,
@@ -52,8 +37,6 @@ export default function BeatManager(sheet, sheetRenderer) {
   let x = 0;
   let currentBeat = 0;
   let score = 0;
-
-  const notes = convertToStreamOfNotes(sheet);
 
   const dynamicTransform = positionX => `
     position: absolute;
@@ -80,7 +63,7 @@ export default function BeatManager(sheet, sheetRenderer) {
       currentBeat = Math.round(counter);
 
       // calculate if input is correct for the current note
-      if (isCorrectKey(notes, activeKey, currentBeat)) {
+      if (isCorrectKey(sheet.notes, activeKey, currentBeat)) {
         score = score + velocity;
       }
     }

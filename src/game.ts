@@ -6,7 +6,9 @@ import SheetRenderer from "./modules/sheet-renderer";
 import BeatManager from "./modules/beat-manager";
 import SoundManager from "./modules/sound-manager";
 
-import bars from "./data/bars";
+import chord1 from "../assets/audio/chord1";
+import chord2 from "../assets/audio/chord2";
+import chord5 from "../assets/audio/chord5";
 
 export function initializeAudioAnalizer(stream) {
   const audioCtx = new AudioContext();
@@ -21,8 +23,9 @@ export function initializeAudioAnalizer(stream) {
 
   document.body.setAttribute("style", "overflow: hidden;");
 
+  const chords = [chord1, chord2, chord5];
   const pitchManager = PitchDetector();
-  const musicGenerator = MusicGenerator(bars, seededRandom.randomIntRange);
+  const musicGenerator = MusicGenerator(chords, seededRandom.randomIntRange);
 
   const sheet = musicGenerator.generateSheet({
     chordProgression: [2, 5, 1, 2],
@@ -32,7 +35,7 @@ export function initializeAudioAnalizer(stream) {
 
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);
-  const soundManager = SoundManager(sheet);
+  const soundManager = SoundManager(sheet, chords);
 
   let lastTime = performance.now();
   (function tick(current: number) {
