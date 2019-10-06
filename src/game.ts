@@ -47,25 +47,6 @@ export function initializeAudioAnalizer(stream) {
   })(lastTime);
 }
 
-// function game() {
-//   let lastTime = performance.now();
-//   let frameId = undefined;
-
-//   function tick(current) {
-//     let current;
-//     frameId = window.requestAnimationFrame(tick);
-
-//     const deltaTime = (current - lastTime) / 1000;
-
-//     initialize();
-//     update(deltaTime);
-
-//     lastTime = current;
-//   }
-
-//   tick(performance.now());
-// }
-
 window.onload = () => {
   navigator.mediaDevices
     .getUserMedia({ audio: true })

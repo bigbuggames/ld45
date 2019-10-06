@@ -1,4 +1,5 @@
 import { css } from "linaria";
+import { beat } from "../beat/beat";
 
 const scoreStyles = css`
   font-size: 40px;
@@ -9,8 +10,6 @@ export enum Note {
   Mid = "M",
   Low = "L"
 }
-
-import { beat } from "../beat/beat";
 
 function gameOver() {
   console.log("game over!");

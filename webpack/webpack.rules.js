@@ -46,7 +46,7 @@ module.exports = [
     use: ["file-loader"]
   },
   {
-    test: /\.(mp3)$/,
+    test: /\.(webm|mp3|wav)$/,
     use: ["file-loader"]
   },
   {
