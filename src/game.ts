@@ -19,23 +19,24 @@ export function initializeAudioAnalizer(stream) {
   source.connect(analyser);
 
   const frequencyData = new Uint8Array(analyser.frequencyBinCount);
-  const seededRandom = random("thisissparta");
 
+  // Game initialization
+  // ---------------------------------------------------------------------------
+  const seededRandom = random("thisissparta");
   document.body.setAttribute("style", "overflow: hidden;");
 
   const chords = [chord1, chord2, chord5];
   const pitchManager = PitchDetector();
   const musicGenerator = MusicGenerator(chords, seededRandom.randomIntRange);
-
   const sheet = musicGenerator.generateSheet({
     chordProgression: [2, 5, 1, 2],
     barsPerChord: 4,
     cycles: 2
   });
-
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);
   const soundManager = SoundManager(sheet, chords);
+  // ---------------------------------------------------------------------------
 
   let lastTime = performance.now();
   (function tick(current: number) {
