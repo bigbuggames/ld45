@@ -46,7 +46,7 @@ const sheetContainer = css`
   display: flex;
 `;
 
-export function generateBeatElementsfromNotes(notes) {
+export function generateBeatElementsFromNotes(notes) {
   return notes
     .map(note => {
       return generateBeat(note)
@@ -58,7 +58,7 @@ export function generateBeatElementsfromNotes(notes) {
 
 export default function SheetRenderer(sheet) {
   const element = document.createElement("span");
-  const beats = generateBeatElementsfromNotes(sheet.notes);
+  const beats = generateBeatElementsFromNotes(sheet.notes);
 
   element.innerHTML = `
     <div class=${sheetContainer}>

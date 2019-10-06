@@ -29,10 +29,11 @@ export default function BeatManager(sheet, sheetRenderer) {
   const element = document.createElement("div");
   const bpm = 60; // TODO: External variable
   const bps = 60 / bpm;
-  const fps = 60; // TODO: Some kind of deltaTime magic here?
+  const fps = 60;
   const velocity = beat.width / (fps * bps);
-  const barNumber = sheet.length;
-  const beatNumber = barNumber * 4;
+  const barNumber = sheet.bars.length;
+  const beatsPerBar = 4;
+  const beatNumber = barNumber * beatsPerBar;
 
   let x = 0;
   let currentBeat = 0;

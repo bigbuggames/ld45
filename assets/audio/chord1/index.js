@@ -19,7 +19,7 @@ export default {
   chord: [chord1Webm, chord1Mp3],
   bars: [
     { howl: [Bar1Webm, Bar1Mp3], notes: ["L", "M", "L", "L"] },
-    { howl: [Bar2Webm, Bar2Mp3], notes: ["M", "L", "M", "L"] },
+    { howl: [Bar2Webm, Bar2Mp3], notes: ["H", "M", "H", "M"] },
     { howl: [Bar3Webm, Bar3Mp3], notes: ["L", "L", "S", "M"] },
     { howl: [Bar4Webm, Bar4Mp3], notes: ["L", "L", "M", "M"] },
     { howl: [Bar5Webm, Bar5Mp3], notes: ["L", "H", "M", "L"] },
