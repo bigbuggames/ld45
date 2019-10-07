@@ -51,7 +51,7 @@ export function initializeAudioAnalizer(stream) {
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);
   const soundManager = SoundManager(sheet, chords);
-  SpawnManager(
+  const spawnManager = SpawnManager(
     sheetRenderer.element,
     pitchManager.element,
     beatManager.score,
@@ -66,8 +66,9 @@ export function initializeAudioAnalizer(stream) {
     analyser.getByteFrequencyData(frequencyData);
 
     const activeKey = pitchManager.update(frequencyData);
-    beatManager.update(deltaTime, activeKey);
+    const score = beatManager.update(deltaTime, activeKey);
     soundManager.update(deltaTime);
+    spawnManager.update(score);
 
     requestAnimationFrame(tick);
 

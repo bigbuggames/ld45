@@ -1,9 +1,4 @@
-import { css } from "linaria";
 import gameConstants from "../../constants/game";
-
-const scoreStyles = css`
-  font-size: 40px;
-`;
 
 export enum Note {
   High = "H",
@@ -40,7 +35,7 @@ export default function BeatManager(sheet, sheetRenderer) {
 
   const dynamicTransform = positionX => `
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
     left: 0;
     transform: translate3d(${positionX}px, 0, 0);
   `;
@@ -68,16 +63,11 @@ export default function BeatManager(sheet, sheetRenderer) {
       }
     }
 
-    element.innerHTML = `
-      <div class=${scoreStyles}>Current score: ${score}</div>
-      <div class=${scoreStyles}>Current beat: ${Math.round(currentBeat)}</div>
-    `;
+    return score;
   }
 
-  // document.body.appendChild(element);
   return {
     element,
-    update,
-    score
+    update
   };
 }

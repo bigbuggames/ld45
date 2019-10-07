@@ -15,6 +15,7 @@ const stageStyles = css`
   height: 900px;
   background: #f6f5c2;
   overflow: hidden;
+  border: 4px solid black;
 
   img {
     position: absolute;
@@ -73,7 +74,7 @@ const layer3Points = [
 
 const spawnPoints = [...layer3Points, ...layer2Points, ...layer1Points];
 
-export default function SpawnManager(sheetRenderer, pitchDetector, score) {
+export default function SpawnManager(sheetRenderer, pitchDetector) {
   // create stage
   const stage = document.createElement("div");
   stage.className = stageStyles;
@@ -106,16 +107,15 @@ export default function SpawnManager(sheetRenderer, pitchDetector, score) {
   stage.appendChild(background);
 
   // button to spawn singers
-  let singerCount = 0;
-  const button = document.createElement("button");
-  button.innerHTML = "Add singer";
-  button.onclick = () => {
-    if (typeof spawnPoints[singerCount] !== "undefined") {
-      background.appendChild(spawnSinger(spawnPoints[singerCount]));
-      singerCount = singerCount + 1;
-    }
-  };
-  document.body.appendChild(button);
+  // const button = document.createElement("button");
+  // button.innerHTML = "Add singer";
+  // button.onclick = () => {
+  //   if (typeof spawnPoints[singerCount] !== "undefined") {
+  //     background.appendChild(spawnSinger(spawnPoints[singerCount]));
+  //     singerCount = singerCount + 1;
+  //   }
+  // };
+  // document.body.appendChild(button);
 
   // stage.addEventListener("mousemove", event => {
   //   const x = event.pageX - stage.offsetLeft;
@@ -123,13 +123,20 @@ export default function SpawnManager(sheetRenderer, pitchDetector, score) {
   //   console.log(x, y);
   // });
 
-  document.body.appendChild(stage);
+  let singerCount = 0;
+  let scoreToSpawn = 150;
 
   // An obsrever pattern here is better than using the update
-  function update() {
-    console.log("updating spawner");
+  function update(score) {
+    if (score > scoreToSpawn * (singerCount + 1)) {
+      if (typeof spawnPoints[singerCount] !== "undefined") {
+        background.appendChild(spawnSinger(spawnPoints[singerCount]));
+        singerCount = singerCount + 1;
+      }
+    }
   }
 
+  document.body.appendChild(stage);
   return {
     element: stage,
     update

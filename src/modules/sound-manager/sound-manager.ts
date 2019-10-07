@@ -1,29 +1,6 @@
 import { Howl } from "howler";
 
-// Is this kind of an iterator pattern?
-// TODO: Move to utils file
-function triggerFactory(times = 1) {
-  let triggered = false;
-  let counter = 1;
-
-  function next() {
-    triggered = false;
-  }
-
-  return function trigger(callback) {
-    if (triggered) {
-      return;
-    }
-
-    callback(next);
-
-    if (counter === times) {
-      triggered = true;
-    } else {
-      counter = counter + 1;
-    }
-  };
-}
+import { triggerFactory } from "../../utils/trigger";
 
 // TODO: If we use roman numerals directly this conversions can be avoided
 function getRomanChord(progression, index) {
@@ -105,9 +82,8 @@ export default function SoundManager(sheet, chords) {
   const sounds = initialize(chords);
   const barTrigger = triggerFactory(1);
 
-  console.log("SoundManager initialized...", sounds, sheet);
-
   function debug(currentBeat) {
+    console.log("SoundManager debuger", sounds, sheet);
     console.log(
       currentBeat,
       currentChordIndex,
@@ -120,12 +96,9 @@ export default function SoundManager(sheet, chords) {
 
   function update(deltaTime) {
     time = time + deltaTime;
-    const currentBeat = Math.round(time);
 
     // plays every beat
     barTrigger(next => {
-      debug(currentBeat);
-
       // triggers multiple voice chorus depending
       // triggerVoicedHowl(sheet.bars[currentBarIndex].howl, chorusCount, 500);
 

@@ -4,7 +4,7 @@ import { detectVoice } from "./utils";
 
 const boxContainer = css`
   position: absolute;
-  bottom: 0;
+  bottom: 4px;
   left: 0;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ const boxContainer = css`
 
 const boxCommon = `
   border-radius: 20px;
-  border: 2px solid black;
+  border: 4px solid black;
   margin: 5px;
   width: 30px;
   height: 30px;
