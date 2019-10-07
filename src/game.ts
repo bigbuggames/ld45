@@ -51,9 +51,11 @@ export function initializeAudioAnalizer(stream) {
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);
   const soundManager = SoundManager(sheet, chords);
-  const spawnManager = SpawnManager(
+  SpawnManager(
     sheetRenderer.element,
-    pitchManager.element
+    pitchManager.element,
+    beatManager.score,
+    seededRandom
   );
   // ---------------------------------------------------------------------------
 

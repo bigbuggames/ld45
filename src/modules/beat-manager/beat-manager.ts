@@ -77,6 +77,7 @@ export default function BeatManager(sheet, sheetRenderer) {
   // document.body.appendChild(element);
   return {
     element,
-    update
+    update,
+    score
   };
 }
