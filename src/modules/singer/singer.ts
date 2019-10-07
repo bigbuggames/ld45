@@ -119,21 +119,21 @@ function animateSprite(
   }, delayBasedOnFps);
 }
 
-export function spawnSinger(pointData: SpanwPoint) {
+export function spawnSinger(pointData: SpanwPoint, seededRandom) {
   const singer = document.createElement("div");
 
   const debugMask = createDebugSpawnPoint(pointData);
   singer.appendChild(debugMask);
 
-  // const randomSpriteIndex = seededRandom.randomIntRange(0, sprites.length);
-  const sprite = sprites[0];
-
   singer.setAttribute("style", generateSpawnPointStyles(pointData));
 
-  animateSprite(singer, sprite, pointData, {
-    spriteWidth: 121,
-    spriteHeight: 352,
-    steps: 126,
+  const randomSpriteIndex = seededRandom.randomIntRange(0, sprites.length);
+  const animationData = sprites[randomSpriteIndex];
+
+  animateSprite(singer, animationData.src, pointData, {
+    spriteWidth: animationData.dimensions.width,
+    spriteHeight: animationData.dimensions.height,
+    steps: animationData.steps,
     fps: 15,
     riseFps: 60
   });

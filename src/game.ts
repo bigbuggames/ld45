@@ -54,7 +54,6 @@ export function initializeAudioAnalizer(stream) {
   const spawnManager = SpawnManager(
     sheetRenderer.element,
     pitchManager.element,
-    beatManager.score,
     seededRandom
   );
   // ---------------------------------------------------------------------------

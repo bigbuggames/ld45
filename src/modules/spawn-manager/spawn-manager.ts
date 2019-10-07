@@ -15,7 +15,7 @@ const stageStyles = css`
   height: 900px;
   background: #f6f5c2;
   overflow: hidden;
-  border: 4px solid black;
+  border: 4px solid #151717;
 
   img {
     position: absolute;
@@ -74,7 +74,11 @@ const layer3Points = [
 
 const spawnPoints = [...layer3Points, ...layer2Points, ...layer1Points];
 
-export default function SpawnManager(sheetRenderer, pitchDetector) {
+export default function SpawnManager(
+  sheetRenderer,
+  pitchDetector,
+  seededRandom
+) {
   // create stage
   const stage = document.createElement("div");
   stage.className = stageStyles;
@@ -107,15 +111,17 @@ export default function SpawnManager(sheetRenderer, pitchDetector) {
   stage.appendChild(background);
 
   // button to spawn singers
-  // const button = document.createElement("button");
-  // button.innerHTML = "Add singer";
-  // button.onclick = () => {
-  //   if (typeof spawnPoints[singerCount] !== "undefined") {
-  //     background.appendChild(spawnSinger(spawnPoints[singerCount]));
-  //     singerCount = singerCount + 1;
-  //   }
-  // };
-  // document.body.appendChild(button);
+  const button = document.createElement("button");
+  button.innerHTML = "Add singer";
+  button.onclick = () => {
+    if (typeof spawnPoints[singerCount] !== "undefined") {
+      background.appendChild(
+        spawnSinger(spawnPoints[singerCount], seededRandom)
+      );
+      singerCount = singerCount + 1;
+    }
+  };
+  document.body.appendChild(button);
 
   // stage.addEventListener("mousemove", event => {
   //   const x = event.pageX - stage.offsetLeft;
@@ -130,7 +136,9 @@ export default function SpawnManager(sheetRenderer, pitchDetector) {
   function update(score) {
     if (score > scoreToSpawn * (singerCount + 1)) {
       if (typeof spawnPoints[singerCount] !== "undefined") {
-        background.appendChild(spawnSinger(spawnPoints[singerCount]));
+        background.appendChild(
+          spawnSinger(spawnPoints[singerCount], seededRandom)
+        );
         singerCount = singerCount + 1;
       }
     }
