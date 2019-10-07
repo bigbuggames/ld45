@@ -36,9 +36,8 @@ export default function SoundManager(sheet, chords, seededRandom) {
   }
 
   let time = 0;
-  let currentBarIndex = 0;
   let currentChordIndex = 0;
-  let chorusCount = 0;
+  let chordCount = 0;
 
   const sounds = initialize(chords);
   const chordTrigger = triggerFactory(1);
@@ -64,7 +63,6 @@ export default function SoundManager(sheet, chords, seededRandom) {
 
   function getNumberOfVoicingsWithSingers(singers: number) {}
 
-  let chordCount = 0;
   function update(deltaTime, singerCount) {
     time = time + deltaTime;
 
@@ -84,11 +82,6 @@ export default function SoundManager(sheet, chords, seededRandom) {
             currentChordIndex = currentChordIndex + 1;
           }
         }
-
-        console.log(
-          getRomanChord(sheet.progression, currentChordIndex),
-          currentChordIndex
-        );
 
         if (singerCount > 0) {
           const voices = createVoicings(

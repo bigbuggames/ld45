@@ -39,7 +39,7 @@ export function detectVoice(frequencyData, thereshold) {
     return acc;
   }, 0);
 
-  // return mean >= thereshold;
+  return mean >= thereshold;
 
-  return true; // TODO: Remove!!!
+  // return true; // TODO: Remove!!!
 }
