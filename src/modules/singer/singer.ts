@@ -119,6 +119,21 @@ function animateSprite(
   }, delayBasedOnFps);
 }
 
+let gabeSpawned = false;
+function randomAnimationIndex(seededRandom, sprites) {
+  const randomSpriteIndex = seededRandom.randomIntRange(0, sprites.length);
+
+  if (randomSpriteIndex === 5) {
+    if (gabeSpawned) {
+      return randomAnimationIndex(seededRandom, sprites);
+    } else {
+      gabeSpawned = true;
+    }
+  }
+
+  return randomSpriteIndex;
+}
+
 export function spawnSinger(pointData: SpanwPoint, seededRandom) {
   const singer = document.createElement("div");
 
@@ -127,7 +142,7 @@ export function spawnSinger(pointData: SpanwPoint, seededRandom) {
 
   singer.setAttribute("style", generateSpawnPointStyles(pointData));
 
-  const randomSpriteIndex = seededRandom.randomIntRange(0, sprites.length);
+  const randomSpriteIndex = randomAnimationIndex(seededRandom, sprites);
   const animationData = sprites[randomSpriteIndex];
 
   animateSprite(singer, animationData.src, pointData, {
