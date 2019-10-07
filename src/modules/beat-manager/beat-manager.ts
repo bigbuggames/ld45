@@ -1,5 +1,5 @@
 import { css } from "linaria";
-import { beat } from "../beat/beat";
+import gameConstants from "../../constants/game";
 
 const scoreStyles = css`
   font-size: 40px;
@@ -27,10 +27,9 @@ function isCorrectKey(notes: string[], key: string, currentBeat: number) {
 
 export default function BeatManager(sheet, sheetRenderer) {
   const element = document.createElement("div");
-  const bpm = 60; // TODO: External variable
-  const bps = 60 / bpm;
+  const bps = 60 / gameConstants.bpm;
   const fps = 60;
-  const velocity = beat.width / (fps * bps);
+  const velocity = gameConstants.beatWidth / (fps * bps);
   const barNumber = sheet.bars.length;
   const beatsPerBar = 4;
   const beatNumber = barNumber * beatsPerBar;
@@ -75,7 +74,7 @@ export default function BeatManager(sheet, sheetRenderer) {
     `;
   }
 
-  document.body.appendChild(element);
+  // document.body.appendChild(element);
   return {
     element,
     update

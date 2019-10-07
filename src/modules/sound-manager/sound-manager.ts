@@ -79,22 +79,22 @@ export default function SoundManager(sheet, chords) {
     next();
   }
 
-  function delayedHowl(delay, src) {
-    return new Promise(resolve => {
-      setInterval(() => {
-        console.log("creating hoooowl!!!");
-        resolve(createHowl(src, true));
-      }, delay);
-    });
-  }
+  function triggerVoicedHowl(
+    src: string,
+    voices: number = 1,
+    delay: number = 50
+  ) {
+    let voiceCount = 0;
 
-  // TODO: Create a sync counter
-  function triggerMultipleChoir(src: object, count: number, delay: number) {
-    const test = [...Array(count)].reduce(acc => {
-      return acc.then(delayedHowl(delay, src));
-    }, Promise.resolve());
-
-    console.log("test", test);
+    const interval = setInterval(() => {
+      if (voiceCount < voices) {
+        createHowl(src, true);
+        voiceCount = voiceCount + 1;
+        console.log("voice triggered", voiceCount, src);
+      } else {
+        window.clearInterval(interval);
+      }
+    }, delay);
   }
 
   let time = 0;
@@ -107,30 +107,39 @@ export default function SoundManager(sheet, chords) {
 
   console.log("SoundManager initialized...", sounds, sheet);
 
-  // function debug(currentBeat) {
-  //   console.log(
-  //     currentBeat,
-  //     currentChordIndex,
-  //     currentBarIndex,
-  //     getRomanChord(sheet.progression, currentChordIndex),
-  //     chorusCount
-  //   );
-  // }
+  function debug(currentBeat) {
+    console.log(
+      currentBeat,
+      currentChordIndex,
+      currentBarIndex,
+      getRomanChord(sheet.progression, currentChordIndex),
+      chorusCount,
+      sheet.bars[currentBarIndex]
+    );
+  }
 
   function update(deltaTime) {
     time = time + deltaTime;
-    // const currentBeat = Math.round(time);
+    const currentBeat = Math.round(time);
 
     // plays every beat
     barTrigger(next => {
+      debug(currentBeat);
+
+      // triggers multiple voice chorus depending
+      // triggerVoicedHowl(sheet.bars[currentBarIndex].howl, chorusCount, 500);
+
       // plays the chords every beat
       const chord =
         sounds[getRomanChord(sheet.progression, currentChordIndex)].chord;
       chord.play();
-      chord.on("end", () => incrementMusicCounters(next));
 
-      // triggers multiple voice chorus depending
-      triggerMultipleChoir(sheet.bars[currentBarIndex].howl, chorusCount, 1000);
+      const choirs = new Howl({
+        autoplay: true,
+        src: sheet.bars[currentBarIndex].howl
+      });
+
+      choirs.on("end", () => incrementMusicCounters(next));
     });
   }
 
@@ -139,7 +148,7 @@ export default function SoundManager(sheet, chords) {
     chorusCount = chorusCount + 1;
   };
 
-  document.body.appendChild(element);
+  // document.body.appendChild(element);
 
   return { update };
 }

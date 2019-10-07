@@ -1,7 +1,5 @@
 import { css } from "linaria";
 
-import { beat } from "../beat/beat";
-
 const beatContainer = css`
   display: flex;
   flex-direction: column;
@@ -11,17 +9,19 @@ const beatContainer = css`
   }
 `;
 
+const beatCommons = `
+  width: 80px;
+  height: 40px;
+  border-radius: 10px;
+`;
+
 const inactiveBeat = css`
-  border: 1px dashed grey;
-  width: ${beat.width}px;
-  height: ${beat.height}px;
+  ${beatCommons}
 `;
 
 const activeNote = css`
-  border: 1px dashed ${beat.activeColor};
-  background-color: ${beat.activeColor};
-  width: ${beat.width}px;
-  height: ${beat.height}px;
+  ${beatCommons}
+  background-color: #F6F5C2;
 `;
 
 export function getCssForBeat(active: string): (string) => string {
@@ -65,7 +65,6 @@ export default function SheetRenderer(sheet) {
       ${beats}
     </div>
   `;
-  document.body.appendChild(element);
 
   return {
     element

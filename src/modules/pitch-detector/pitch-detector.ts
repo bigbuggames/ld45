@@ -16,17 +16,22 @@ const boxContainer = css`
   }
 `;
 
+const boxCommon = `
+  border-radius: 20px;
+  border: 2px solid black;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+`;
+
 const disabledBox = css`
-  border: 1px solid green;
-  width: 40px;
-  height: 40px;
+  ${boxCommon}
+  background: #f6f5c2;
 `;
 
 const enabledBox = css`
-  border: 1px solid red;
-  background-color: forestgreen;
-  width: 40px;
-  height: 40px;
+  ${boxCommon}
+  background: #4dad94;
 `;
 
 export default function PitchDetector() {
@@ -90,7 +95,5 @@ export default function PitchDetector() {
     }
   }
 
-  document.body.appendChild(element);
-
-  return { update };
+  return { element, update };
 }
