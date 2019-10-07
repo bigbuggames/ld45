@@ -111,17 +111,17 @@ export default function SpawnManager(
   stage.appendChild(background);
 
   // button to spawn singers
-  const button = document.createElement("button");
-  button.innerHTML = "Add singer";
-  button.onclick = () => {
-    if (typeof spawnPoints[singerCount] !== "undefined") {
-      background.appendChild(
-        spawnSinger(spawnPoints[singerCount], seededRandom)
-      );
-      singerCount = singerCount + 1;
-    }
-  };
-  document.body.appendChild(button);
+  // const button = document.createElement("button");
+  // button.innerHTML = "Add singer";
+  // button.onclick = () => {
+  //   if (typeof spawnPoints[singerCount] !== "undefined") {
+  //     background.appendChild(
+  //       spawnSinger(spawnPoints[singerCount], seededRandom)
+  //     );
+  //     singerCount = singerCount + 1;
+  //   }
+  // };
+  // document.body.appendChild(button);
 
   // stage.addEventListener("mousemove", event => {
   //   const x = event.pageX - stage.offsetLeft;
@@ -130,7 +130,7 @@ export default function SpawnManager(
   // });
 
   let singerCount = 0;
-  let scoreToSpawn = 150;
+  let scoreToSpawn = 120;
 
   // An obsrever pattern here is better than using the update
   function update(score) {
@@ -142,6 +142,8 @@ export default function SpawnManager(
         singerCount = singerCount + 1;
       }
     }
+
+    return singerCount;
   }
 
   document.body.appendChild(stage);

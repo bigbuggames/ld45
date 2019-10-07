@@ -17,6 +17,10 @@ export default function rnd(seed: string): Random {
     return Math.floor(rng.quick() * max) + min;
   }
 
+  function randomFloatRange(min: number, max: number): number {
+    return rng.quick() * max + min;
+  }
+
   function randomWalk(maxArea: number): number[] {
     return [rng.quick() * randomSign(), rng.quick() * randomSign()].map(
       number => number * maxArea
@@ -24,8 +28,10 @@ export default function rnd(seed: string): Random {
   }
 
   return {
+    rng,
     randomSign,
     randomIntRange,
+    randomFloatRange,
     randomWalk
   };
 }

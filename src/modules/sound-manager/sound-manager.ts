@@ -11,9 +11,7 @@ function getRomanChord(progression, index) {
   }[progression[index]];
 }
 
-export default function SoundManager(sheet, chords) {
-  const element = document.createElement("button");
-
+export default function SoundManager(sheet, chords, seededRandom) {
   function createHowl(src: string, autoplay: boolean = false): object {
     return new Howl({ autoplay, src });
   }
@@ -37,93 +35,73 @@ export default function SoundManager(sheet, chords) {
     return chords;
   }
 
-  /**
-   * Increments the bar and choir indexes.
-   * @param next executin it allows the trigger to be executed again
-   */
-  function incrementMusicCounters(next) {
-    currentBarIndex = currentBarIndex + 1;
-
-    // Every four bars we trigger a backgroundChoir change
-    if (currentBarIndex % 4 === 0) {
-      // Resets the chord index to start again with the progression
-      if (currentChordIndex === sheet.progression.length - 1) {
-        currentChordIndex = 0;
-      } else {
-        currentChordIndex = currentChordIndex + 1;
-      }
-    }
-    next();
-  }
-
-  function triggerVoicedHowl(
-    src: string,
-    voices: number = 1,
-    delay: number = 50
-  ) {
-    let voiceCount = 0;
-
-    const interval = setInterval(() => {
-      if (voiceCount < voices) {
-        createHowl(src, true);
-        voiceCount = voiceCount + 1;
-        console.log("voice triggered", voiceCount, src);
-      } else {
-        window.clearInterval(interval);
-      }
-    }, delay);
-  }
-
   let time = 0;
   let currentBarIndex = 0;
   let currentChordIndex = 0;
   let chorusCount = 0;
 
   const sounds = initialize(chords);
-  const barTrigger = triggerFactory(1);
+  const chordTrigger = triggerFactory(1);
 
-  function debug(currentBeat) {
-    console.log("SoundManager debuger", sounds, sheet);
-    console.log(
-      currentBeat,
-      currentChordIndex,
-      currentBarIndex,
-      getRomanChord(sheet.progression, currentChordIndex),
-      chorusCount,
-      sheet.bars[currentBarIndex]
-    );
+  function createVoicings(src, voiceCount = 1) {
+    let voices = [];
+    for (let i = 0; i < voiceCount; i++) {
+      voices.push(
+        new Howl({
+          volume: 0.6,
+          src: src
+          // rate: seededRandom.randomFloatRange(0.99, 1.01)
+        })
+      );
+    }
+
+    return voices;
   }
 
-  function update(deltaTime) {
+  function playAllVoices(voices) {
+    return voices.map(voice => voice.play());
+  }
+
+  function getNumberOfVoicingsWithSingers(singers: number) {}
+
+  let chordCount = 0;
+  function update(deltaTime, singerCount) {
     time = time + deltaTime;
 
-    // plays every beat
-    barTrigger(next => {
-      // triggers multiple voice chorus depending
-      // triggerVoicedHowl(sheet.bars[currentBarIndex].howl, chorusCount, 500);
-
-      // plays the chords every beat
+    chordTrigger(next => {
       const chord =
         sounds[getRomanChord(sheet.progression, currentChordIndex)].chord;
       chord.volume(1);
       chord.play();
 
-      const choirs = new Howl({
-        autoplay: true,
-        volume: 0.8,
-        src: sheet.bars[currentBarIndex].howl
-      });
+      chord.once("end", () => {
+        chordCount = chordCount + 1;
 
-      choirs.on("end", () => incrementMusicCounters(next));
+        if (chordCount % 4 === 0) {
+          if (currentChordIndex === sheet.progression.length - 1) {
+            currentChordIndex = 0;
+          } else {
+            currentChordIndex = currentChordIndex + 1;
+          }
+        }
+
+        console.log(
+          getRomanChord(sheet.progression, currentChordIndex),
+          currentChordIndex
+        );
+
+        if (singerCount > 0) {
+          const voices = createVoicings(
+            sheet.bars[chordCount].howl,
+            singerCount
+          );
+          playAllVoices(voices);
+        }
+
+        next();
+      });
     });
   }
-
-  element.innerHTML = "Increment Chorus members!!!";
-  element.onclick = () => {
-    chorusCount = chorusCount + 1;
-  };
-
-  // document.body.appendChild(element);
 
   return { update };
 }
