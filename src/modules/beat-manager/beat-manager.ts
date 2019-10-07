@@ -36,7 +36,7 @@ export default function BeatManager(sheet, sheetRenderer) {
   const dynamicTransform = positionX => `
     position: absolute;
     bottom: 4px;
-    left: 0;
+    left: 40px;
     transform: translate3d(${positionX}px, 0, 0);
   `;
 

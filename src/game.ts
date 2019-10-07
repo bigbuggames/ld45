@@ -37,7 +37,7 @@ export function initializeAudioAnalizer(stream) {
 
   // Game initialization
   // ---------------------------------------------------------------------------
-  const seededRandom = random("thisissparta");
+  const seededRandom = random(new Date().toISOString());
   document.body.setAttribute("style", globalStyles);
 
   const chords = [chord1, chord2, chord5];
@@ -46,7 +46,7 @@ export function initializeAudioAnalizer(stream) {
   const sheet = musicGenerator.generateSheet({
     chordProgression: [2, 5, 1, 2],
     barsPerChord: 4,
-    cycles: 2
+    cycles: 20
   });
   const sheetRenderer = SheetRenderer(sheet);
   const beatManager = BeatManager(sheet, sheetRenderer.element);

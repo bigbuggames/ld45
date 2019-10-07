@@ -105,10 +105,12 @@ export default function SoundManager(sheet, chords) {
       // plays the chords every beat
       const chord =
         sounds[getRomanChord(sheet.progression, currentChordIndex)].chord;
+      chord.volume(1);
       chord.play();
 
       const choirs = new Howl({
         autoplay: true,
+        volume: 0.8,
         src: sheet.bars[currentBarIndex].howl
       });
 
